@@ -33,7 +33,8 @@ export default function ReportPage() {
   if (!report.data || !experiment.data) return <Skeleton className="h-[480px]" />
 
   const r = report.data
-  const llm = r.agents.filter((a) => a.agentId.startsWith('llm-'))
+  const isLlm = (aid: string) => agents.data?.find((a) => a.id === aid)?.kind === 'llm'
+  const llm = r.agents.filter((a) => isLlm(a.agentId))
   const best = [...llm].sort((a, b) => b.sharpe - a.sharpe)[0]
   const mddReduction =
     best && r.benchmark.maxDrawdown > 0 ? 1 - best.maxDrawdown / r.benchmark.maxDrawdown : null

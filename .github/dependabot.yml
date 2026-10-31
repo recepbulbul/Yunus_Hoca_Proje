@@ -1,15 +1,33 @@
 version: 2
+
+# Minor/patch updates are grouped into one PR per ecosystem; majors come one by one
+# so breaking changes can be reviewed. The cooldown avoids adopting a release on day one
+# (supply-chain safety: compromised releases are usually yanked within days).
 updates:
   - package-ecosystem: uv
     directory: /backend
     schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
     groups:
-      python-deps: { patterns: ["*"] }
+      python-minor-patch:
+        update-types: [minor, patch]
+
   - package-ecosystem: npm
     directory: /frontend
     schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    ignore:
+      # Types must match the Node runtime in .nvmrc (24), not the newest Node.
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
     groups:
-      npm-deps: { patterns: ["*"] }
+      npm-minor-patch:
+        update-types: [minor, patch]
+
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: monthly }
+    cooldown: { default-days: 7 }
+    groups:
+      actions-minor-patch:
+        update-types: [minor, patch]

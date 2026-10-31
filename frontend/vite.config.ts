@@ -27,6 +27,8 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
       exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**', 'src/main.tsx'],
+      // NF5: >= 70% coverage; the build fails below this.
+      thresholds: { lines: 70, functions: 70, branches: 70, statements: 70 },
     },
   },
 })
