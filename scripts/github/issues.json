@@ -1,0 +1,122 @@
+{
+  "labels": [
+    { "name": "requirement", "color": "1d76db", "description": "Öneri formundaki ister" },
+    { "name": "functional", "color": "0e8a16", "description": "Fonksiyonel ister (F)" },
+    { "name": "non-functional", "color": "fbca04", "description": "Fonksiyonel olmayan ister (NF)" },
+    { "name": "frontend", "color": "c5def5", "description": "" },
+    { "name": "backend", "color": "bfd4f2", "description": "" },
+    { "name": "ai", "color": "d4c5f9", "description": "LLM / RL / hafıza" },
+    { "name": "security", "color": "b60205", "description": "" },
+    { "name": "docs", "color": "0075ca", "description": "" }
+  ],
+  "milestones": [
+    { "title": "P1 - Hafta 1: Analiz ve repo iskeleti", "due_on": "2026-11-08T23:59:59Z" },
+    { "title": "P2 - Hafta 2: Prototip ve veri modeli", "due_on": "2026-11-15T23:59:59Z" },
+    { "title": "P3 - Hafta 3: Veri hattı ve baseline", "due_on": "2026-11-22T23:59:59Z" },
+    { "title": "P4 - Hafta 4: Backend iskeleti", "due_on": "2026-11-29T23:59:59Z" },
+    { "title": "P5 - Hafta 5: API bağlama, hafıza, post-mortem", "due_on": "2026-12-06T23:59:59Z" },
+    { "title": "P6 - Hafta 6: Forum, LLM entegrasyonu, C0-C3", "due_on": "2026-12-13T23:59:59Z" },
+    { "title": "P7 - Hafta 7: MVP", "due_on": "2026-12-20T23:59:59Z" },
+    { "title": "P8 - Hafta 8: Canlıya alma", "due_on": "2026-12-27T23:59:59Z" },
+    { "title": "P9 - Hafta 9: Test ve güvenlik", "due_on": "2027-01-03T23:59:59Z" },
+    { "title": "P10 - Hafta 10: Teslim", "due_on": "2027-01-10T23:59:59Z" }
+  ],
+  "issues": [
+    {
+      "title": "F1 Kimlik doğrulama: JWT, araştırmacı/izleyici rolleri",
+      "labels": ["requirement", "functional", "backend", "security"],
+      "milestone": "P4 - Hafta 4: Backend iskeleti",
+      "body": "Kayıt/giriş JWT ile yapılır. `researcher` deney kurar, `viewer` yalnızca izler.\n\n**Kabul kriterleri**\n- [ ] `POST /auth/register`, `POST /auth/login` JWT döner\n- [ ] Parolalar Argon2id ile özetlenir\n- [ ] `viewer` rolü deney oluşturma uçlarında 403 alır\n- [ ] Prototipte giriş ekranı ve rol yönlendirmesi (P2)"
+    },
+    {
+      "title": "F2 Deney yönetimi: oluşturma ve YAML dışa aktarımı",
+      "labels": ["requirement", "functional", "backend", "frontend"],
+      "milestone": "P5 - Hafta 5: API bağlama, hafıza, post-mortem",
+      "body": "Varlık, dönem, ajan seti, koşul (C0–C3), seed ve komisyonla deney oluşturma.\n\n**Kabul kriterleri**\n- [ ] Deney CRUD uçları ve form doğrulaması\n- [ ] Yapılandırma YAML olarak indirilebilir ve geri yüklenebilir\n- [ ] Test penceresiyle çakışan dönem için uyarı"
+    },
+    {
+      "title": "F3 Replay simülasyonu: hız ayarı, duraklat/devam, deterministik seed",
+      "labels": ["requirement", "functional", "backend", "ai"],
+      "milestone": "P3 - Hafta 3: Veri hattı ve baseline",
+      "body": "**Kabul kriterleri**\n- [ ] 1×–50× hız ayarı, duraklatma/devam\n- [ ] Aynı seed + aynı LLM önbelleği ile birebir aynı sonuç (regresyon testi)\n- [ ] t kapanışında karar, t+1 açılışında %0,1 komisyon + 5 bp kayma"
+    },
+    {
+      "title": "F4 Canlı paper-trading: Binance WebSocket, otomatik yeniden bağlanma",
+      "labels": ["requirement", "functional", "backend"],
+      "milestone": "P7 - Hafta 7: MVP",
+      "body": "**Kabul kriterleri**\n- [ ] Binance WS akışıyla sanal portföy değerlenir; gerçek hesap bağlantısı yok\n- [ ] Üstel geri çekilmeyle otomatik yeniden bağlanma, REST ile boşluk doldurma\n- [ ] 5 dk bağlantısızlıkta `degraded` durumu ve UI uyarısı"
+    },
+    {
+      "title": "F5 Canlı borsa ekranı: mum grafiği, işlem işaretleri, lider tablosu",
+      "labels": ["requirement", "functional", "frontend"],
+      "milestone": "P2 - Hafta 2: Prototip ve veri modeli",
+      "body": "**Kabul kriterleri**\n- [ ] Lightweight Charts v5 mum grafiği üzerinde ajan al/sat işaretleri\n- [ ] Anlık lider tablosu ve portföy değerleri\n- [ ] Prototipte mock veriyle oynatma (P2), P7'de gerçek WS"
+    },
+    {
+      "title": "F6 Ajan detayı: portföy geçmişi, gerekçe, kullanılan anılar, güven skorları",
+      "labels": ["requirement", "functional", "frontend"],
+      "milestone": "P2 - Hafta 2: Prototip ve veri modeli",
+      "body": "**Kabul kriterleri**\n- [ ] Portföy değeri grafiği\n- [ ] Her kararın gerekçesi, kullanılan anılar ve forum mesajları\n- [ ] Ajanın diğerlerine verdiği güven skorları"
+    },
+    {
+      "title": "F7 Forum ve hafıza tarayıcı: güven görselleştirme, rejime göre filtre, arama",
+      "labels": ["requirement", "functional", "frontend", "ai"],
+      "milestone": "P2 - Hafta 2: Prototip ve veri modeli",
+      "body": "**Kabul kriterleri**\n- [ ] Ajan mesaj akışı, gönderen güven ağırlığı\n- [ ] Dersleri rejime (boğa/ayı/yatay) göre filtreleme ve metin arama\n- [ ] P5'te hibrit (vektör + tam metin) arama"
+    },
+    {
+      "title": "F8 Raporlama: Sharpe, MDD, getiri, sürü korelasyonu, CSV/PDF",
+      "labels": ["requirement", "functional", "frontend", "backend"],
+      "milestone": "P2 - Hafta 2: Prototip ve veri modeli",
+      "body": "**Kabul kriterleri**\n- [ ] Metrikler `mindex.domain.metrics` ile hesaplanır (birim testli)\n- [ ] Koşul (C0–C3) karşılaştırma grafikleri\n- [ ] CSV ve PDF dışa aktarım"
+    },
+    {
+      "title": "F9 Ajan eklenti arayüzü (BaseAgent) ve MCP sunucusu",
+      "labels": ["requirement", "functional", "backend", "ai"],
+      "milestone": "P7 - Hafta 7: MVP",
+      "body": "**Kabul kriterleri**\n- [ ] Yerel ajanlar `BaseAgent` alt sınıfıyla eklenir\n- [ ] MCP araçları: `get_market_data`, `get_portfolio`, `place_order`\n- [ ] Araçlar yalnızca çağıran ajanın portföyüne yetkili"
+    },
+    {
+      "title": "NF1 Performans: karar p95 < 10 sn, tick→ekran p95 < 500 ms, 50 izleyici",
+      "labels": ["requirement", "non-functional", "backend"],
+      "milestone": "P9 - Hafta 9: Test ve güvenlik",
+      "body": "**Kabul kriterleri**\n- [ ] Langfuse'ta karar çağrısı p95 < 10 sn\n- [ ] k6 WebSocket testinde 50 eşzamanlı izleyici, tick→ekran p95 < 500 ms, hata < %1"
+    },
+    {
+      "title": "NF2 Güvenilirlik: şema doğrulama, yeniden deneme, güvenli varsayılan, checkpoint",
+      "labels": ["requirement", "non-functional", "backend", "ai"],
+      "milestone": "P6 - Hafta 6: Forum, LLM entegrasyonu, C0-C3",
+      "body": "**Kabul kriterleri**\n- [x] Karar JSON sözleşmesi + 2 yeniden deneme + pozisyonu koru (`mindex.domain.decision`, P1)\n- [ ] Simülasyon checkpoint'ten sürdürülebilir\n- [ ] Bozuk JSON, veri boşluğu, aşırı volatilite uç durum testleri"
+    },
+    {
+      "title": "NF3 Güvenlik: Argon2id, .env, hız sınırlama, OWASP LLM01, MCP yetkisi",
+      "labels": ["requirement", "non-functional", "security"],
+      "milestone": "P9 - Hafta 9: Test ve güvenlik",
+      "body": "**Kabul kriterleri**\n- [x] Gizli anahtarlar `.env`'de, `.env.example` repoda (P1)\n- [ ] Argon2id parola özeti, giriş hız sınırlama\n- [ ] Forum mesajları güvenilmeyen veri olarak işaretlenip filtrelenir\n- [ ] Trivy + gitleaks CI'da geçer"
+    },
+    {
+      "title": "NF4 Gözlemlenebilirlik: OpenTelemetry, structlog JSON, Langfuse",
+      "labels": ["requirement", "non-functional", "backend", "ai"],
+      "milestone": "P6 - Hafta 6: Forum, LLM entegrasyonu, C0-C3",
+      "body": "**Kabul kriterleri**\n- [x] structlog JSON log yapılandırması (P1)\n- [ ] Her LLM çağrısının prompt, yanıt ve süresi Langfuse'ta\n- [ ] Her işlem gerekçesine kadar izlenebilir"
+    },
+    {
+      "title": "NF5 Tekrarlanabilirlik ve bakım: uv lock, Docker, seed, CI, ≥%70 kapsam",
+      "labels": ["requirement", "non-functional", "backend"],
+      "milestone": "P1 - Hafta 1: Analiz ve repo iskeleti",
+      "body": "**Kabul kriterleri**\n- [x] `uv.lock`, pre-commit, GitHub Actions CI (Ruff, pyright, pytest, Trivy)\n- [x] Çekirdek modüllerde ≥ %70 test kapsamı CI'da zorunlu\n- [ ] Docker Compose, model/prompt sürüm sabitleme, LLM yanıt önbelleği"
+    },
+    {
+      "title": "P1 Ar-Ge: use case, mimari, akış ve AI pipeline diyagramları",
+      "labels": ["docs"],
+      "milestone": "P1 - Hafta 1: Analiz ve repo iskeleti",
+      "body": "- [x] `docs/01-use-cases.md`\n- [x] `docs/02-architecture.md`\n- [x] `docs/03-flows.md` (3 akış, hata dallarıyla)\n- [x] `docs/04-ai-pipeline.md`\n- [x] İsterlerin Issues'a aktarılması\n- [x] Repo iskeleti (uv, pre-commit, CI)"
+    },
+    {
+      "title": "P2 Ar-Ge: tıklanabilir prototip (6 ekran), ER diyagramı, şema, veri sözlüğü",
+      "labels": ["docs", "frontend"],
+      "milestone": "P2 - Hafta 2: Prototip ve veri modeli",
+      "body": "- [x] React + Tailwind + MSW ile 6 ekran: giriş, deney kurma, canlı borsa, ajan detayı, forum, rapor\n- [ ] GitHub Pages'te yayında\n- [x] `docs/05-er-diagram.md`, `docs/db/schema.sql`\n- [x] `docs/06-data-dictionary.md`, `docs/07-tech-stack.md`"
+    }
+  ]
+}

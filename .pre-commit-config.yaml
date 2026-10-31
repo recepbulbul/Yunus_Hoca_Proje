@@ -1,0 +1,54 @@
+# Install once: cd backend && uv run pre-commit install
+# Run on everything: uv run pre-commit run --all-files
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+        exclude: ^frontend/tsconfig.*\.json$  # tsconfig allows comments
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.3
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+        files: ^(backend|scripts)/
+      - id: ruff-format
+        files: ^(backend|scripts)/
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.13.6
+    hooks:
+      - id: uv-lock
+        files: ^backend/(pyproject\.toml|uv\.lock)$
+        args: [--project, backend]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  - repo: local
+    hooks:
+      - id: pyright
+        name: pyright (strict)
+        entry: uv run --project backend pyright --project backend
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: frontend-lint
+        name: oxlint + prettier (frontend)
+        entry: npm --prefix frontend run lint
+        language: system
+        files: ^frontend/src/
+        pass_filenames: false

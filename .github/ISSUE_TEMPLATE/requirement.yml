@@ -1,0 +1,28 @@
+name: İster (requirement)
+description: Fonksiyonel veya fonksiyonel olmayan bir ister
+labels: [requirement]
+body:
+  - type: input
+    id: code
+    attributes:
+      label: İster kodu
+      placeholder: F5 / NF1
+    validations: { required: true }
+  - type: textarea
+    id: description
+    attributes:
+      label: Açıklama
+    validations: { required: true }
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Kabul kriterleri
+      description: Ölçülebilir, test edilebilir maddeler
+      value: |
+        - [ ]
+    validations: { required: true }
+  - type: dropdown
+    id: package
+    attributes:
+      label: İş paketi
+      options: [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]

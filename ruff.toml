@@ -1,0 +1,2 @@
+# Root config so scripts/ use the same rules as backend/ (ruff picks the nearest config).
+extend = "backend/pyproject.toml"
