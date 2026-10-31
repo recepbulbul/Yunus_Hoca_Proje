@@ -36,7 +36,7 @@ jobs:
           VITE_USE_MOCKS: "true"
       # SPA fallback: GitHub Pages serves 404.html for unknown paths
       - run: cp dist/index.html dist/404.html
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: frontend/dist
 
